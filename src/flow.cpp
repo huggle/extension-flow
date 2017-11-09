@@ -9,8 +9,9 @@
 //GNU General Public License for more details.
 
 #include "flow.hpp"
+#include "messageflow.hpp"
 #include <wikiedit.hpp>
-//#include <wikiuser.hpp>
+#include <wikiuser.hpp>
 #include <wikisite.hpp>
 #include <wikipage.hpp>
 #include <configuration.hpp>
@@ -19,7 +20,7 @@
 #include <syslog.hpp>
 #include <QTimer>
 
-#define SCORING_TIMEOUT this->GetConfig("timeout", "7")
+using namespace Huggle;
 
 flow::flow()
 {
@@ -38,6 +39,20 @@ bool flow::Register()
 bool flow::IsWorking()
 {
     return true;
+}
+
+void *flow::Hook_MessageUser(void *User, QString Text, QString Title, QString Summary, bool InsertSection, void *Dependency, bool NoSuffix, bool SectionKeep, bool Autoremove, QString BaseTimestamp, bool CreateOnly, bool FreshOnly)
+{
+    WikiUser *user = (WikiUser*)User;
+    if (!this->IsSupported(user->GetSite()))
+        return nullptr;
+
+    return nullptr;
+}
+
+bool flow::IsSupported(WikiSite *site)
+{
+
 }
 
 #if QT_VERSION < 0x050000
