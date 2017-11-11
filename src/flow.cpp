@@ -52,7 +52,20 @@ void *flow::Hook_MessageUser(void *User, QString Text, QString Title, QString Su
 
 bool flow::IsSupported(WikiSite *site)
 {
+    if (this->supported.contains(site))
+        return this->supported[site];
 
+    bool supports = false;
+    foreach (WikiSite_Ext extension, site->Extensions)
+    {
+        if (extension.Name == "Flow")
+        {
+            supports = true;
+            break;
+        }
+    }
+    this->supported.insert(site, supports);
+    return supports;
 }
 
 #if QT_VERSION < 0x050000

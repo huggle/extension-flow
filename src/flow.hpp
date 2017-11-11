@@ -44,11 +44,16 @@ class flow : public QObject, public Huggle::iExtension
         QString GetExtensionAuthor() { return "Petr Bena"; }
         QString GetExtensionDescription() { return "Support for Flow talk page model"; }
         QString GetExtensionVersion() { return "1.0.0"; }
+        bool RequestCore() { return true; }
+        bool RequestNetwork() { return true; }
+        bool RequestConfiguration() { return true; }
         void *Hook_MessageUser(void *User, QString Text, QString Title, QString Summary, bool InsertSection = true,
                                void *Dependency = nullptr, bool NoSuffix = false, bool SectionKeep = false,
                                bool Autoremove = true, QString BaseTimestamp = "", bool CreateOnly = false, bool FreshOnly = false);
     public slots:
     private:
+        bool IsSupported(Huggle::WikiSite *site);
+        QHash<Huggle::WikiSite*, bool> supported;
 };
 
 #endif // FLOW_HPP
