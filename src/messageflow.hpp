@@ -23,9 +23,17 @@ namespace Huggle
             //! Creates a new instance of message class that is used to deliver a message to users
             MessageFlow(WikiUser *target, QString MessageText, QString MessageSummary);
             ~MessageFlow();
+            void Send();
+            bool IsFinished();
         protected:
             bool Done();
             void Fail(QString reason);
+            //! Whether we know if user talk page supports flow or not
+            bool userPageInfoFinished = false;
+            //! Flow?
+            bool usingFlow = false;
+            //! This query is used to check whether target user is using flow content model
+            Collectable_SmartPtr<ApiQuery> qCheck;
     };
 }
 

@@ -28,6 +28,35 @@ namespace Huggle
     class Query;
 }
 
+/*!
+ * \brief The flow class, how it works:
+ *
+                       +---------------------------------+
+                       |New message delivery is requested|
+                       +------------+--------------------+
+                                    |
+                                    |
+                                    |  Extension hook
+                                    |
+                                    |
+                                    v
+           Nope        +------------+-------------+           Yes
+         +-------------+Is flow supported on wiki?+---------+
+         |             +--------------------------+         |
+         |                                                  |
+         |                                                  |
+         |                                          +-------+-------------------+
+         |                                          |Override with MessageFlow  |
+         |                                          |delivery class and initiate|
+         v                                          |asynchronous query to check|
++--------+------------+                             |if target user has flow    |
+|Standard delivery    +<-------------+              +-------+-------------------+
++---------------------+              |     <- Nope          |
+                                     +---------------+------+------------------+
++----------------------+                             |Query finished, does user|
+|Deliver using flow API+<----------------------------+has flow on talk?        |
++----------------------+                     <- Yes  +-------------------------+
+ */
 class flow : public QObject, public Huggle::iExtension
 {
     Q_OBJECT

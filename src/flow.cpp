@@ -47,7 +47,36 @@ void *flow::Hook_MessageUser(void *User, QString Text, QString Title, QString Su
     if (!this->IsSupported(user->GetSite()))
         return nullptr;
 
-    return nullptr;
+    if (User == nullptr)
+    {
+        Huggle::Syslog::HuggleLogs->Log("FLOW: Cowardly refusing to message NULL user");
+        return nullptr;
+    }
+
+    if (Title.isEmpty())
+    {
+        InsertSection = false;
+        SectionKeep = false;
+    }
+
+    MessageFlow *m = new MessageFlow(user, Text, Summary);
+    m->Title = Title;
+    m->Dependency = (Query*)Dependency;
+    m->CreateInNewSection = InsertSection;
+    m->BaseTimestamp = BaseTimestamp;
+    m->SectionKeep = SectionKeep;
+    m->RequireFresh = FreshOnly;
+    m->CreateOnly = CreateOnly;
+    m->Suffix = !NoSuffix;
+    QueryPool::HugglePool->Messages.append(m);
+    m->RegisterConsumer(HUGGLECONSUMER_CORE);
+    if (!Autoremove)
+    {
+        m->RegisterConsumer(HUGGLECONSUMER_CORE_MESSAGE);
+    }
+    m->Send();
+    HUGGLE_DEBUG("FLOW: Sending message to user " + user->Username, 1);
+    return m;
 }
 
 bool flow::IsSupported(WikiSite *site)
