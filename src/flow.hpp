@@ -76,6 +76,7 @@ class flow : public QObject, public Huggle::iExtension
         bool RequestCore() { return true; }
         bool RequestNetwork() { return true; }
         bool RequestConfiguration() { return true; }
+        void Hook_MainWindowOnLoad(void *window);
         void *Hook_MessageUser(void *User, QString Text, QString Title, QString Summary, bool InsertSection = true,
                                void *Dependency = nullptr, bool NoSuffix = false, bool SectionKeep = false,
                                bool Autoremove = true, QString BaseTimestamp = "", bool CreateOnly = false, bool FreshOnly = false);

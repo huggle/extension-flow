@@ -15,6 +15,9 @@
 #include "configuration.hpp"
 #include "exception.hpp"
 #include "localization.hpp"
+#include "mainwindow.hpp"
+#include "history.hpp"
+#include "historyitem.hpp"
 #include "generic.hpp"
 #include "querypool.hpp"
 #include "syslog.hpp"
@@ -32,7 +35,7 @@ MessageFlow::MessageFlow(WikiUser *target, QString MessageText, QString MessageS
 
 MessageFlow::~MessageFlow()
 {
-    delete this->User;
+
 }
 
 void MessageFlow::Send()
@@ -48,14 +51,17 @@ void MessageFlow::Send()
 
 bool MessageFlow::IsFinished()
 {
+    if (this->isFinished)
+        return true;
+
     if (this->IsFailed())
         return true;
 
-    if (this->userPageInfoFinished)
+    if (this->userPageInfoFinished && !this->usingFlow)
         return Message::IsFinished();
 
     // We don't know yet if target is using flow or not, let's check if our query that was supposed to check it is finished yet
-    if (this->qCheck->IsProcessed())
+    if (!this->userPageInfoFinished && this->qCheck->IsProcessed())
     {
         if (this->qCheck->IsFailed())
         {
@@ -78,7 +84,15 @@ bool MessageFlow::IsFinished()
         {
             // Yikes, user has flow!
             this->usingFlow = true;
-            throw new Huggle::Exception("Flow code not yet implemented", BOOST_CURRENT_FUNCTION);
+            this->qFlowNewMessage = new ApiQuery(ActionCustom, this->User->GetSite());
+            this->qFlowNewMessage->Target = "Delivering message to " + this->User->Username;
+            this->qFlowNewMessage->UsingPOST = true;
+            this->qFlowNewMessage->SetCustomActionPart("flow", true, true, false);
+            this->qFlowNewMessage->Parameters = "submodule=new-topic&page=" + QUrl::toPercentEncoding(this->User->GetTalk()) +
+                    "&nttopic=" + QUrl::toPercentEncoding(this->Title) + "&ntcontent=" + QUrl::toPercentEncoding(this->Text) +
+                    "&ntformat=wikitext&token=" + QUrl::toPercentEncoding(this->User->GetSite()->GetProjectConfig()->Token_Csrf);
+            HUGGLE_QP_APPEND(this->qFlowNewMessage);
+            this->qFlowNewMessage->Process();
             return false;
         } else
         {
@@ -87,6 +101,42 @@ bool MessageFlow::IsFinished()
             Message::Send();
         }
         return false;
+    }
+
+    if (this->usingFlow && this->qFlowNewMessage->IsProcessed())
+    {
+        if (this->qFlowNewMessage->IsFailed())
+        {
+            // Check if error isn't "bad token"
+            ApiQueryResultNode *error = this->qFlowNewMessage->GetApiQueryResult()->GetNode("error");
+            if (error && error->GetAttribute("code") == "badtoken")
+            {
+                Configuration::Logout(this->qFlowNewMessage->GetSite());
+                // We have to exit here because we don't know the token for query
+                this->Fail(_l("editquery-invalid-token", this->User->GetTalk()));
+                return true;
+            }
+            this->Fail("Unable to send message to user: " + this->qFlowNewMessage->GetFailureReason());
+            return true;
+        }
+        HistoryItem *item = new HistoryItem();
+        item->Result = _l("successful");
+        item->NewPage = this->CreateOnly;
+        item->Site = this->User->GetSite();
+        item->Type = HistoryMessage;
+        item->Target = User->Username;
+        item->IsRevertable = false;
+        if (this->Dependency != nullptr && this->Dependency->HI != nullptr)
+        {
+            this->Dependency->HI->UndoDependency = item;
+            item->ReferencedBy = this->Dependency->HI;
+        }
+        if (MainWindow::HuggleMain != nullptr)
+        {
+            MainWindow::HuggleMain->_History->Prepend(item);
+        }
+        this->isFinished = true;
+        return true;
     }
     // It's still running
     return false;

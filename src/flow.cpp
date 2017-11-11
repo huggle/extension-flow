@@ -15,6 +15,7 @@
 #include <wikisite.hpp>
 #include <wikipage.hpp>
 #include <configuration.hpp>
+#include <mainwindow.hpp>
 #include <querypool.hpp>
 #include <generic.hpp>
 #include <syslog.hpp>
@@ -39,6 +40,12 @@ bool flow::Register()
 bool flow::IsWorking()
 {
     return true;
+}
+
+void flow::Hook_MainWindowOnLoad(void *window)
+{
+    // This is necessary because of some flaws in a way how extensions are loaded
+    MainWindow::HuggleMain = (MainWindow*)window;
 }
 
 void *flow::Hook_MessageUser(void *User, QString Text, QString Title, QString Summary, bool InsertSection, void *Dependency, bool NoSuffix, bool SectionKeep, bool Autoremove, QString BaseTimestamp, bool CreateOnly, bool FreshOnly)

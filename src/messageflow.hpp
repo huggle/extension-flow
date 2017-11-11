@@ -32,8 +32,10 @@ namespace Huggle
             bool userPageInfoFinished = false;
             //! Flow?
             bool usingFlow = false;
+            bool isFinished = false;
             //! This query is used to check whether target user is using flow content model
             Collectable_SmartPtr<ApiQuery> qCheck;
+            Collectable_SmartPtr<ApiQuery> qFlowNewMessage;
     };
 }
 
