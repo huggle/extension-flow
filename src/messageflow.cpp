@@ -29,8 +29,7 @@ using namespace Huggle;
 
 MessageFlow::MessageFlow(WikiUser *target, QString MessageText, QString MessageSummary) : Message(target, MessageText, MessageSummary)
 {
-    // Flow doesn't really care about this
-    this->RequireFresh = false;
+
 }
 
 MessageFlow::~MessageFlow()
