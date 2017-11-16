@@ -134,6 +134,9 @@ bool MessageFlow::IsFinished()
         {
             MainWindow::HuggleMain->_History->Prepend(item);
         }
+        // write something to talk page in case it was empty
+        if (this->User->TalkPage_GetContents().isEmpty())
+            this->User->TalkPage_SetContents(this->Text);
         this->isFinished = true;
         return true;
     }
