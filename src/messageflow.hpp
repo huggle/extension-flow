@@ -11,13 +11,14 @@
 #ifndef MESSAGE_FLOW_H
 #define MESSAGE_FLOW_H
 
+#define HUGGLE_EXTENSION
 #include <definitions.hpp>
 #include <message.hpp>
 
 namespace Huggle
 {
     //! This is similar to query, just it's more simple, you can use it to deliver messages to users
-    class HUGGLE_EX MessageFlow : public Message
+    class MessageFlow : public Message
     {
         public:
             //! Creates a new instance of message class that is used to deliver a message to users
