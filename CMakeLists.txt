@@ -35,7 +35,7 @@ file(GLOB flow_resx "src/*.qrc")
 file(GLOB flow_uixx "src/*.ui")
 
 SET(flow_SOURCES ${flow_srcx})
-SET(flow_FORMS ${enwiki_uixx} "../../mainwindow.ui")
+SET(flow_FORMS ${enwiki_uixx})
 SET(flow_RESOURCES ${flow_resx})
 if(QT5_BUILD)
     QT5_WRAP_CPP(flow_HEADERS_MOC ${flow_HEADERS})
