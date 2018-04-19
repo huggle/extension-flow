@@ -10,15 +10,15 @@
 
 #include "flow.hpp"
 #include "messageflow.hpp"
-#include <wikiedit.hpp>
-#include <wikiuser.hpp>
-#include <wikisite.hpp>
-#include <wikipage.hpp>
-#include <configuration.hpp>
-#include <mainwindow.hpp>
-#include <querypool.hpp>
-#include <generic.hpp>
-#include <syslog.hpp>
+#include <huggle_core/wikiedit.hpp>
+#include <huggle_core/wikiuser.hpp>
+#include <huggle_core/wikisite.hpp>
+#include <huggle_core/wikipage.hpp>
+#include <huggle_core/configuration.hpp>
+#include <huggle_core/mainwindow.hpp>
+#include <huggle_core/querypool.hpp>
+#include <huggle_core/generic.hpp>
+#include <huggle_core/syslog.hpp>
 #include <QTimer>
 
 using namespace Huggle;

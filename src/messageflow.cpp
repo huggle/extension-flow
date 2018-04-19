@@ -9,20 +9,20 @@
 //GNU General Public License for more details.
 
 #include "messageflow.hpp"
-#include "apiquery.hpp"
-#include "apiqueryresult.hpp"
-#include "collectable.hpp"
-#include "configuration.hpp"
-#include "exception.hpp"
-#include "localization.hpp"
-#include "mainwindow.hpp"
-#include "history.hpp"
-#include "historyitem.hpp"
-#include "generic.hpp"
-#include "querypool.hpp"
-#include "syslog.hpp"
-#include "wikisite.hpp"
-#include "wikiuser.hpp"
+#include <huggle_core/apiquery.hpp>
+#include <huggle_core/apiqueryresult.hpp>
+#include <huggle_core/collectable.hpp>
+#include <huggle_core/configuration.hpp>
+#include <huggle_core/exception.hpp>
+#include <huggle_core/localization.hpp>
+#include <huggle_core/mainwindow.hpp>
+#include <huggle_core/history.hpp>
+#include <huggle_core/historyitem.hpp>
+#include <huggle_core/generic.hpp>
+#include <huggle_core/querypool.hpp>
+#include <huggle_core/syslog.hpp>
+#include <huggle_core/wikisite.hpp>
+#include <huggle_core/wikiuser.hpp>
 #include <QUrl>
 
 using namespace Huggle;

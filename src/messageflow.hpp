@@ -12,8 +12,8 @@
 #define MESSAGE_FLOW_H
 
 #define HUGGLE_EXTENSION
-#include <definitions.hpp>
-#include <message.hpp>
+#include <huggle_core/definitions.hpp>
+#include <huggle_core/message.hpp>
 
 namespace Huggle
 {
