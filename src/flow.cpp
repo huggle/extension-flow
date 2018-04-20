@@ -15,7 +15,7 @@
 #include <huggle_core/wikisite.hpp>
 #include <huggle_core/wikipage.hpp>
 #include <huggle_core/configuration.hpp>
-#include <huggle_core/mainwindow.hpp>
+#include <huggle_ui/mainwindow.hpp>
 #include <huggle_core/querypool.hpp>
 #include <huggle_core/generic.hpp>
 #include <huggle_core/syslog.hpp>

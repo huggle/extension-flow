@@ -15,8 +15,8 @@
 #include <huggle_core/configuration.hpp>
 #include <huggle_core/exception.hpp>
 #include <huggle_core/localization.hpp>
-#include <huggle_core/mainwindow.hpp>
-#include <huggle_core/history.hpp>
+#include <huggle_ui/mainwindow.hpp>
+#include <huggle_ui/history.hpp>
 #include <huggle_core/historyitem.hpp>
 #include <huggle_core/generic.hpp>
 #include <huggle_core/querypool.hpp>
