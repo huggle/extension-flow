@@ -11,24 +11,19 @@ SET(QT_USE_QTXML TRUE)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
 include_directories(../../)
-#### Qt 4 and 5 ####
-if(QT5_BUILD)
-    find_package(Qt5Core REQUIRED)
-    find_package(Qt5Gui REQUIRED)
-    find_package(Qt5Xml REQUIRED)
-    find_package(Qt5Widgets REQUIRED)
-    find_package(Qt5Network REQUIRED)
-    set(QT_INCLUDES
-        ${Qt5Gui_INCLUDE_DIRS}
-        ${Qt5Widgets_INCLUDE_DIRS}
-        ${Qt5Network_INCLUDE_DIRS}
-        ${Qt5Xml_INCLUDE_DIRS}
-        ${Qt5Svg_INCLUDE_DIRS}
-    )
-    include_directories(${QT_INCLUDES})
-else()
-    find_package(Qt4 REQUIRED)
-endif()
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Network REQUIRED)
+set(QT_INCLUDES
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
+    ${Qt5Network_INCLUDE_DIRS}
+    ${Qt5Xml_INCLUDE_DIRS}
+    ${Qt5Svg_INCLUDE_DIRS}
+)
+include_directories(${QT_INCLUDES})
 
 file(GLOB flow_srcx "src/*.cpp")
 file(GLOB flow_resx "src/*.qrc")
@@ -54,9 +49,7 @@ ADD_DEFINITIONS( -DQT_USE_QSTRINGBUILDER )
 ADD_LIBRARY(huggle_flow SHARED ${flow_SOURCES} ${flow_FORMS_HEADERS} ${flow_HEADERS_MOC} ${flow_RESOURCES_RCC})
 TARGET_LINK_LIBRARIES(huggle_flow ${QT_LIBRARIES})
 TARGET_LINK_LIBRARIES(huggle_flow huggle_core huggle_ui)
-if (QT5_BUILD)
-    qt5_use_modules(huggle_flow Core Gui Widgets Xml)
-endif()
+TARGET_LINK_LIBRARIES(huggle_flow Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Xml)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 if (LINUX_SNAP)
     INSTALL(TARGETS huggle_flow DESTINATION bin/extensions)
