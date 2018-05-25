@@ -118,10 +118,9 @@ bool MessageFlow::IsFinished()
             this->Fail("Unable to send message to user: " + this->qFlowNewMessage->GetFailureReason());
             return true;
         }
-        HistoryItem *item = new HistoryItem();
+        HistoryItem *item = new HistoryItem(this->User->GetSite());
         item->Result = _l("successful");
         item->NewPage = this->CreateOnly;
-        item->Site = this->User->GetSite();
         item->Type = HistoryMessage;
         item->Target = User->Username;
         item->IsRevertable = false;
