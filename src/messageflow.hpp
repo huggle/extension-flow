@@ -23,12 +23,12 @@ namespace Huggle
         public:
             //! Creates a new instance of message class that is used to deliver a message to users
             MessageFlow(WikiUser *target, QString MessageText, QString MessageSummary);
-            ~MessageFlow();
-            void Send();
-            bool IsFinished();
+            ~MessageFlow() override;
+            void Send() override;
+            bool IsFinished() override;
         protected:
-            bool Done();
-            void Fail(QString reason);
+            bool isDone() override;
+            void Fail(QString reason) override;
             //! Whether we know if user talk page supports flow or not
             bool userPageInfoFinished = false;
             //! Flow?

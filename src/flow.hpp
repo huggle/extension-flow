@@ -54,7 +54,7 @@ namespace Huggle
 +---------------------+              |     <- Nope          |
                                      +---------------+------+------------------+
 +----------------------+                             |Query finished, does user|
-|Deliver using flow API+<----------------------------+has flow on talk?        |
+|Deliver using flow API+<----------------------------+have flow on talk?       |
 +----------------------+                     <- Yes  +-------------------------+
  */
 class flow : public QObject, public Huggle::iExtension

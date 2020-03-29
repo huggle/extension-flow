@@ -143,7 +143,7 @@ bool MessageFlow::IsFinished()
     return false;
 }
 
-bool MessageFlow::Done()
+bool MessageFlow::isDone()
 {
     return false;
 }
